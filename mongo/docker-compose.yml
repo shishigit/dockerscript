@@ -1,57 +1,70 @@
 version: '3.7'
-
 services:
 
-  mongo1:
+  ## Config Servers
+  config01:
     image: mongo
-    restart: always
-    hostname: cfg1.jjy.net
-    command: --configsvr --replSet replSet1 --bind_ip cfg1.jjy.net
-
-  mongo2:
+    command: mongod --port 27017 --configsvr --replSet configserver --oplogSize 16
+    volumes:
+      - ./scripts:/scripts
+  config02:
     image: mongo
-    restart: always
-    hostname: cfg2.jjy.net
-    command: --configsvr --replSet replSet2 --bind_ip cfg2.jjy.net
-
-  mongo3:
+    command: mongod --port 27017 --configsvr --replSet configserver --oplogSize 16
+    volumes:
+      - ./scripts:/scripts
+  config03:
     image: mongo
-    restart: always
-    hostname: cfg3.jjy.net
-    command: --configsvr --replSet replSet3 --bind_ip cfg3.jjy.net
+    command: mongod --port 27017 --configsvr --replSet configserver --oplogSize 16
+    volumes:
+      - ./scripts:/scripts
 
-  mongo-express:
-    image: mongo-express
-    restart: always
+  ## Shards
+  shard01a:
+    image: mongo
+    command: mongod --port 27018 --shardsvr --replSet shard01 --oplogSize 16
+    volumes:
+      - ./scripts:/scripts
+  shard01b:
+    image: mongo
+    command: mongod --port 27018 --shardsvr --replSet shard01 --oplogSize 16
+    volumes:
+      - ./scripts:/scripts
+  shard02a:
+    image: mongo
+    command: mongod --port 27019 --shardsvr --replSet shard02 --oplogSize 16
+    volumes:
+      - ./scripts:/scripts
+  shard02b:
+    image: mongo
+    command: mongod --port 27019 --shardsvr --replSet shard02 --oplogSize 16
+    volumes:
+      - ./scripts:/scripts
+  shard03a:
+    image: mongo
+    command: mongod --port 27020 --shardsvr --replSet shard03 --oplogSize 16
+    volumes:
+      - ./scripts:/scripts
+  shard03b:
+    image: mongo
+    command: mongod --port 27020 --shardsvr --replSet shard03  --oplogSize 16
+    volumes:
+      - ./scripts:/scripts
+
+  ## Router
+  router:
+    image: mongo
+    command: mongos --port 27017 --configdb configserver/config01:27017,config02:27017,config03:27017 --bind_ip_all
     ports:
-      - 8081:8081
-    environment:
-      ME_CONFIG_MONGODB_PORT: 27019
-      ME_CONFIG_MONGODB_SERVER: cfg1.jjy.net,cfg2.jjy.net,cfg3.jjy.net
-
-# Environment vairables are passed to the run command for configuring a mongo-express container.
-
-# Name                            | Default         | Description
-# --------------------------------|-----------------|------------
-# ME_CONFIG_BASICAUTH_USERNAME    | ''              | mongo-express web username
-# ME_CONFIG_BASICAUTH_PASSWORD    | ''              | mongo-express web password
-# ME_CONFIG_MONGODB_ENABLE_ADMIN  | 'true'          | Enable admin access to all databases. Send strings: `"true"` or `"false"`
-# ME_CONFIG_MONGODB_ADMINUSERNAME | ''              | MongoDB admin username
-# ME_CONFIG_MONGODB_ADMINPASSWORD | ''              | MongoDB admin password
-# ME_CONFIG_MONGODB_PORT          | 27017           | MongoDB port
-# ME_CONFIG_MONGODB_SERVER        | 'mongo'         | MongoDB container name. Use comma delimited list of host names for replica sets.
-# ME_CONFIG_OPTIONS_EDITORTHEME   | 'default'       | mongo-express editor color theme, [more here](http://codemirror.net/demo/theme.html)
-# ME_CONFIG_REQUEST_SIZE          | '100kb'         | Maximum payload size. CRUD operations above this size will fail in [body-parser](https://www.npmjs.com/package/body-parser).
-# ME_CONFIG_SITE_BASEURL          | '/'             | Set the baseUrl to ease mounting at a subdirectory. Remember to include a leading and trailing slash.
-# ME_CONFIG_SITE_COOKIESECRET     | 'cookiesecret'  | String used by [cookie-parser middleware](https://www.npmjs.com/package/cookie-parser) to sign cookies.
-# ME_CONFIG_SITE_SESSIONSECRET    | 'sessionsecret' | String used to sign the session ID cookie by [express-session middleware](https://www.npmjs.com/package/express-session).
-# ME_CONFIG_SITE_SSL_ENABLED      | 'false'         | Enable SSL.
-# ME_CONFIG_SITE_SSL_CRT_PATH     | ''              | SSL certificate file.
-# ME_CONFIG_SITE_SSL_KEY_PATH     | ''              | SSL key file.
-# The following are only needed if ME_CONFIG_MONGODB_ENABLE_ADMIN is "false"
-
-# Name                            | Default         | Description
-# --------------------------------|-----------------|------------
-# ME_CONFIG_MONGODB_AUTH_DATABASE | 'db'            | Database name
-# ME_CONFIG_MONGODB_AUTH_USERNAME | 'admin'         | Database username
-# ME_CONFIG_MONGODB_AUTH_PASSWORD | 'pass'          | Database password
+      - "27017:27017"
+    volumes:
+      - ./scripts:/scripts
+    depends_on:
+      - config01
+      - config02
+      - config03
+      - shard01a
+      - shard01b
+      - shard02a
+      - shard02b
+      - shard03a
+      - shard03b
