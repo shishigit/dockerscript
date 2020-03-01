@@ -41,12 +41,12 @@ services:
       - ./scripts:/scripts
   shard03a:
     image: mongo
-    command: mongod --port 27020 --shardsvr --replSet shard03 --oplogSize 16
+    command: mongod --port 27017 --shardsvr --replSet shard03 --oplogSize 16
     volumes:
       - ./scripts:/scripts
   shard03b:
     image: mongo
-    command: mongod --port 27020 --shardsvr --replSet shard03  --oplogSize 16
+    command: mongod --port 27017 --shardsvr --replSet shard03  --oplogSize 16
     volumes:
       - ./scripts:/scripts
 
