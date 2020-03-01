@@ -32,8 +32,8 @@ mongos> sh.status()
 	"clusterId" : ObjectId("5981df064c97b126d0e5aa0e")
 }
   shards:
-	{  "_id" : "shard01",  "host" : "shard01/shard01a:27018,shard01b:27018",  "state" : 1 }
-	{  "_id" : "shard02",  "host" : "shard02/shard02a:27019,shard02b:27019",  "state" : 1 }
+	{  "_id" : "shard01",  "host" : "shard01/shard01a:27017,shard01b:27017",  "state" : 1 }
+	{  "_id" : "shard02",  "host" : "shard02/shard02a:27017,shard02b:27017",  "state" : 1 }
 	{  "_id" : "shard03",  "host" : "shard03/shard03a:27017,shard03b:27017",  "state" : 1 }
   active mongoses:
 	"3.4.6" : 1
