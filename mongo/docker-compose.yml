@@ -29,6 +29,7 @@ services:
     command: mongod --port 27017 --shardsvr --replSet shard01 --oplogSize 16
     volumes:
       - ./scripts:/scripts
+
   shard02a:
     image: mongo
     command: mongod --port 27017 --shardsvr --replSet shard02 --oplogSize 16
@@ -39,6 +40,7 @@ services:
     command: mongod --port 27017 --shardsvr --replSet shard02 --oplogSize 16
     volumes:
       - ./scripts:/scripts
+
   shard03a:
     image: mongo
     command: mongod --port 27017 --shardsvr --replSet shard03 --oplogSize 16
@@ -69,6 +71,7 @@ services:
       - shard03a
       - shard03b
 
+  ## Express
   mongo-express:
     image: mongo-express
     restart: always
