@@ -51,10 +51,6 @@ services:
       - shard02b
       - shard03a
       - shard03b
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: shishi
-
 
   ## Express
   mongo-express:
