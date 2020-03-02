@@ -1,7 +1,5 @@
 # Mongo 分片集群
 
-## Mongo 组件
-
 ## 第一次运行
 
 **启动**
@@ -20,9 +18,10 @@ sh init.sh
 
 **检查集群状态**
 
-```
+```js
 docker-compose exec router mongo
 mongos> sh.status()
+
 
 --- Sharding Status ---
   sharding version: {
