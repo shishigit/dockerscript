@@ -1,66 +1,46 @@
-# TODO 安全，数据落地，日志落地
 version: '3.7'
+
 services:
 
   ## Config Servers
   config01:
-    image: mongo
-    command: mongod --port 27017 --configsvr --replSet configserver --oplogSize 16
-    volumes:
-      - ./scripts:/scripts
+    build: ./scripts
+    command: mongod --port 27017 --configsvr --replSet configserver --oplogSize 16 --keyFile /scripts/keyfile.yml
   config02:
-    image: mongo
-    command: mongod --port 27017 --configsvr --replSet configserver --oplogSize 16
-    volumes:
-      - ./scripts:/scripts
+    build: ./scripts
+    command: mongod --port 27017 --configsvr --replSet configserver --oplogSize 16 --keyFile /scripts/keyfile.yml
   config03:
-    image: mongo
-    command: mongod --port 27017 --configsvr --replSet configserver --oplogSize 16
-    volumes:
-      - ./scripts:/scripts
+    build: ./scripts
+    command: mongod --port 27017 --configsvr --replSet configserver --oplogSize 16 --keyFile /scripts/keyfile.yml
 
   ## Shards
   shard01a:
-    image: mongo
-    command: mongod --port 27017 --shardsvr --replSet shard01 --oplogSize 16
-    volumes:
-      - ./scripts:/scripts
+    build: ./scripts
+    command: mongod --port 27017 --shardsvr --replSet shard01 --oplogSize 16 --keyFile /scripts/keyfile.yml
   shard01b:
-    image: mongo
-    command: mongod --port 27017 --shardsvr --replSet shard01 --oplogSize 16
-    volumes:
-      - ./scripts:/scripts
+    build: ./scripts
+    command: mongod --port 27017 --shardsvr --replSet shard01 --oplogSize 16 --keyFile /scripts/keyfile.yml
 
   shard02a:
-    image: mongo
-    command: mongod --port 27017 --shardsvr --replSet shard02 --oplogSize 16
-    volumes:
-      - ./scripts:/scripts
+    build: ./scripts
+    command: mongod --port 27017 --shardsvr --replSet shard02 --oplogSize 16 --keyFile /scripts/keyfile.yml
   shard02b:
-    image: mongo
-    command: mongod --port 27017 --shardsvr --replSet shard02 --oplogSize 16
-    volumes:
-      - ./scripts:/scripts
+    build: ./scripts
+    command: mongod --port 27017 --shardsvr --replSet shard02 --oplogSize 16 --keyFile /scripts/keyfile.yml
 
   shard03a:
-    image: mongo
-    command: mongod --port 27017 --shardsvr --replSet shard03 --oplogSize 16
-    volumes:
-      - ./scripts:/scripts
+    build: ./scripts
+    command: mongod --port 27017 --shardsvr --replSet shard03 --oplogSize 16 --keyFile /scripts/keyfile.yml
   shard03b:
-    image: mongo
-    command: mongod --port 27017 --shardsvr --replSet shard03  --oplogSize 16
-    volumes:
-      - ./scripts:/scripts
+    build: ./scripts
+    command: mongod --port 27017 --shardsvr --replSet shard03  --oplogSize 16 --keyFile /scripts/keyfile.yml
 
   ## Router
   router:
-    image: mongo
-    command: mongos --port 27017 --configdb configserver/config01:27017,config02:27017,config03:27017 --bind_ip_all
+    build: ./scripts
+    command: mongos --port 27017 --configdb configserver/config01:27017,config02:27017,config03:27017 --bind_ip_all  --keyFile /scripts/keyfile.yml
     ports:
       - "27017:27017"
-    volumes:
-      - ./scripts:/scripts
     depends_on:
       - config01
       - config02
@@ -71,6 +51,10 @@ services:
       - shard02b
       - shard03a
       - shard03b
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: shishi
+
 
   ## Express
   mongo-express:
@@ -80,3 +64,5 @@ services:
       - 8081:8081
     environment:
       ME_CONFIG_MONGODB_SERVER: router
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: shishi
