@@ -10,6 +10,6 @@ db.createUser(
     {
         user: "root",
         pwd: 'shishi',
-        roles: ["root", "dbOwner", "userAdmin", "userAdminAnyDatabase", "clusterAdmin", "clusterManager", "clusterMonitor","hostManager"]
+        roles: ["root"]
     }
 )
