@@ -92,6 +92,8 @@ services:
       ME_CONFIG_MONGODB_SERVER: router
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: shishi
+      ME_CONFIG_BASICAUTH_USERNAME: root
+      ME_CONFIG_BASICAUTH_PASSWORD: shishi
     depends_on:
       - router
 
