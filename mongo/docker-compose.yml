@@ -6,34 +6,61 @@ services:
   config01:
     build: ./scripts
     command: mongod --port 27017 --configsvr --replSet configserver --oplogSize 16 --keyFile /scripts/keyfile.yml
+    volumes:
+      - config01-db:/data/db
+      - config01-config:/data/configdb
   config02:
     build: ./scripts
     command: mongod --port 27017 --configsvr --replSet configserver --oplogSize 16 --keyFile /scripts/keyfile.yml
+    volumes:
+      - config02-db:/data/db
+      - config02-config:/data/configdb
   config03:
     build: ./scripts
     command: mongod --port 27017 --configsvr --replSet configserver --oplogSize 16 --keyFile /scripts/keyfile.yml
+    volumes:
+      - config03-db:/data/db
+      - config03-config:/data/configdb
 
   ## Shards
   shard01a:
     build: ./scripts
     command: mongod --port 27017 --shardsvr --replSet shard01 --oplogSize 16 --keyFile /scripts/keyfile.yml
+    volumes:
+      - shard01a-db:/data/db
+      - shard01a-config:/data/configdb
   shard01b:
     build: ./scripts
     command: mongod --port 27017 --shardsvr --replSet shard01 --oplogSize 16 --keyFile /scripts/keyfile.yml
+    volumes:
+      - shard01b-db:/data/db
+      - shard01b-config:/data/configdb
 
   shard02a:
     build: ./scripts
     command: mongod --port 27017 --shardsvr --replSet shard02 --oplogSize 16 --keyFile /scripts/keyfile.yml
+    volumes:
+      - shard02a-db:/data/db
+      - shard02a-config:/data/configdb
   shard02b:
     build: ./scripts
     command: mongod --port 27017 --shardsvr --replSet shard02 --oplogSize 16 --keyFile /scripts/keyfile.yml
+    volumes:
+      - shard02b-db:/data/db
+      - shard02b-config:/data/configdb
 
   shard03a:
     build: ./scripts
     command: mongod --port 27017 --shardsvr --replSet shard03 --oplogSize 16 --keyFile /scripts/keyfile.yml
+    volumes:
+      - shard03a-db:/data/db
+      - shard03a-config:/data/configdb
   shard03b:
     build: ./scripts
     command: mongod --port 27017 --shardsvr --replSet shard03  --oplogSize 16 --keyFile /scripts/keyfile.yml
+    volumes:
+      - shard03b-db:/data/db
+      - shard03b-config:/data/configdb
 
   ## Router
   router:
@@ -51,6 +78,9 @@ services:
       - shard02b
       - shard03a
       - shard03b
+    volumes:
+      - router-db:/data/db
+      - router-config:/data/configdb
 
   ## Express
   mongo-express:
@@ -64,3 +94,25 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: shishi
     depends_on:
       - router
+
+volumes:
+  router-db:
+  config01-db:
+  config02-db:
+  config03-db:
+  shard01a-db:
+  shard01b-db:
+  shard02a-db:
+  shard02b-db:
+  shard03a-db:
+  shard03b-db:
+  router-config:
+  config01-config:
+  config02-config:
+  config03-config:
+  shard01a-config:
+  shard01b-config:
+  shard02a-config:
+  shard02b-config:
+  shard03a-config:
+  shard03b-config:
