@@ -20,7 +20,8 @@ RUN apk add --purge --no-cache \
     zlib-dev \
     gengetopt \
     make \
-    libwebsockets-dev
+    libmicrohttpd-dev \
+    curl-dev
 
 # 编译 usrsctp
 RUN git clone https://gitee.com/chendaliang/usrsctp.git \
@@ -39,17 +40,13 @@ RUN cd / \
     && git checkout jjy  \
     && sh autogen.sh  \
     && ./configure --prefix=/opt/janus \
-        --enable-websockets \
-        --disable-turn-rest-api \
-        --disable-rest \
-        --disable-rabbitmq \
-        --disable-mqtt \
-        --disable-unix-sockets \
-        --disable-nanomsg \
-        --disable-sample-event-handler \
-        --disable-rabbitmq-event-handler \
-        --disable-mqtt-event-handler \
-        --disable-nanomsg-event-handler \
+        --disable-all-plugins \
+        --enable-plugin-videoroom \
+        --disable-all-transports \
+        --enable-rest \
+        --disable-all-handlers \
+        --enable-sample-event-handler \
+        --disable-all-loggers \
     && make \
     && make install \
     && make configs \
@@ -73,7 +70,8 @@ RUN apk del --purge -r \
     zlib-dev \
     gengetopt \
     make \
-    libwebsockets-dev
+    libmicrohttpd-dev \
+    curl-dev
 
 # 安装运行时
 RUN apk add --purge --no-cache \
@@ -81,7 +79,8 @@ RUN apk add --purge --no-cache \
     libnice \
     jansson \
     libsrtp \
-    libwebsockets
+    libmicrohttpd \
+    libcurl
 
 # 文件夹
 RUN mkdir -p /opt/janus/lib/janus/transports \
