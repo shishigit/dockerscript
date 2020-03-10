@@ -39,14 +39,14 @@ RUN cd / \
     && git checkout jjy  \
     && sh autogen.sh  \
     && ./configure --prefix=/opt/janus \
-        --disable-websockets \
+        --enable-websockets \
         --disable-turn-rest-api \
-        --enable-rest \
+        --disable-rest \
         --disable-rabbitmq \
         --disable-mqtt \
         --disable-unix-sockets \
         --disable-nanomsg \
-        --enable-sample-event-handler \
+        --disable-sample-event-handler \
         --disable-rabbitmq-event-handler \
         --disable-mqtt-event-handler \
         --disable-nanomsg-event-handler \
