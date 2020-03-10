@@ -39,14 +39,14 @@ RUN cd / \
     && git checkout jjy  \
     && sh autogen.sh  \
     && ./configure --prefix=/opt/janus \
-        --enable-websockets \
+        --disable-websockets \
         --disable-turn-rest-api \
-        --disable-rest \
+        --enable-rest \
         --disable-rabbitmq \
         --disable-mqtt \
         --disable-unix-sockets \
         --disable-nanomsg \
-        --disable-sample-event-handler \
+        --enable-sample-event-handler \
         --disable-rabbitmq-event-handler \
         --disable-mqtt-event-handler \
         --disable-nanomsg-event-handler \
@@ -86,7 +86,5 @@ RUN apk add --purge --no-cache \
 # 文件夹
 RUN mkdir -p /opt/janus/lib/janus/transports \
     && mkdir -p /opt/janus/lib/janus/loggers
-
-EXPOSE 7188 8188
 
 CMD /opt/janus/bin/janus -e
