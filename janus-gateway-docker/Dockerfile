@@ -39,14 +39,10 @@ RUN cd / \
     && cd /janus-gateway  \
     && git checkout jjy  \
     && sh autogen.sh  \
-    && ./configure --prefix=/opt/janus \
-        --disable-all-plugins \
-        --enable-plugin-videoroom \
-        --disable-all-transports \
-        --enable-rest \
-        --disable-all-handlers \
-        --enable-sample-event-handler \
-        --disable-all-loggers \
+    && ./configure \
+        --prefix=/opt/janus \
+        --disable-data-channels \
+        --disable-websockets \
     && make \
     && make install \
     && make configs \
@@ -86,4 +82,4 @@ RUN apk add --purge --no-cache \
 RUN mkdir -p /opt/janus/lib/janus/transports \
     && mkdir -p /opt/janus/lib/janus/loggers
 
-ENTRYPOINT [ "/opt/janus/bin/janus"]
+CMD ["/opt/janus/bin/janus"]
