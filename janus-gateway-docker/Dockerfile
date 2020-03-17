@@ -39,10 +39,28 @@ RUN cd / \
     && cd /janus-gateway  \
     && git checkout jjy  \
     && sh autogen.sh  \
+    && ./configure -h\
     && ./configure \
         --prefix=/opt/janus \
         --disable-data-channels \
         --disable-websockets \
+        --disable-rabbitmq \
+        --disable-mqtt \
+        --disable-unix-sockets \
+        --disable-nanomsg \
+        --disable-plugin-videocall \
+        --disable-plugin-echotest \
+        --disable-websockets-event-handler \
+        --disable-rabbitmq-event-handler \
+        --disable-mqtt-event-handler \
+        --disable-nanomsg-event-handler \
+        --disable-plugin-sip \
+        --disable-plugin-nosip \
+        --disable-plugin-streaming \
+        --disable-plugin-textroom \
+        --disable-plugin-videocall \
+        --disable-plugin-voicemail \
+        --disable-plugin-recordplay \
     && make \
     && make install \
     && make configs \
