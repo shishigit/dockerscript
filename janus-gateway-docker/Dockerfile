@@ -86,4 +86,4 @@ RUN apk add --purge --no-cache \
 RUN mkdir -p /opt/janus/lib/janus/transports \
     && mkdir -p /opt/janus/lib/janus/loggers
 
-CMD /opt/janus/bin/janus -e
+ENTRYPOINT [ "/opt/janus/bin/janus"]
