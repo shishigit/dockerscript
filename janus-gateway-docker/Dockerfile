@@ -20,8 +20,7 @@ RUN apk add --purge --no-cache \
     zlib-dev \
     gengetopt \
     make \
-    libmicrohttpd-dev \
-    curl-dev
+    libwebsockets-dev
 
 # 编译 usrsctp
 RUN git clone https://gitee.com/chendaliang/usrsctp.git \
@@ -34,33 +33,31 @@ RUN git clone https://gitee.com/chendaliang/usrsctp.git \
     && rm -rf /usrsctp
 
 # 编译 janus-gateway
-RUN cd / \
-    && git clone https://gitee.com/chendaliang/janus-gateway.git \
-    && cd /janus-gateway  \
+RUN cd / && git clone https://gitee.com/chendaliang/janus-gateway.git
+RUN cd /janus-gateway  \
     && git checkout jjy  \
     && sh autogen.sh  \
     && ./configure -h\
     && ./configure \
         --prefix=/opt/janus \
         --disable-data-channels \
-        --disable-websockets \
-        --disable-rabbitmq \
-        --disable-mqtt \
+        --enable-websockets \
+        --disable-rest \
         --disable-unix-sockets \
-        --disable-nanomsg \
-        --disable-plugin-videocall \
-        --disable-plugin-echotest \
+        # --disable-nanomsg \
         --disable-websockets-event-handler \
-        --disable-rabbitmq-event-handler \
-        --disable-mqtt-event-handler \
-        --disable-nanomsg-event-handler \
-        --disable-plugin-sip \
+        # --disable-rabbitmq-event-handler \
+        # --disable-mqtt-event-handler \
+        # --disable-nanomsg-event-handler \
+        --disable-sample-event-handler \
+        # --disable-plugin-sip \
         --disable-plugin-nosip \
         --disable-plugin-streaming \
         --disable-plugin-textroom \
         --disable-plugin-videocall \
-        --disable-plugin-voicemail \
+        # --disable-plugin-voicemail \
         --disable-plugin-recordplay \
+        --disable-plugin-echotest \
     && make \
     && make install \
     && make configs \
@@ -84,8 +81,8 @@ RUN apk del --purge -r \
     zlib-dev \
     gengetopt \
     make \
-    libmicrohttpd-dev \
-    curl-dev
+    libwebsockets-dev
+
 
 # 安装运行时
 RUN apk add --purge --no-cache \
@@ -93,8 +90,8 @@ RUN apk add --purge --no-cache \
     libnice \
     jansson \
     libsrtp \
-    libmicrohttpd \
-    libcurl
+    libwebsockets-dev
+
 
 # 文件夹
 RUN mkdir -p /opt/janus/lib/janus/transports \
