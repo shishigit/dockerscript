@@ -21,7 +21,8 @@ RUN apk add --purge --no-cache \
     gengetopt \
     make \
     libmicrohttpd-dev \
-    curl-dev
+    curl-dev \
+    libwebsockets-dev
 
 # 编译 usrsctp
 RUN git clone https://gitee.com/chendaliang/usrsctp.git \
@@ -42,7 +43,7 @@ RUN cd /janus-gateway  \
     && ./configure \
         --prefix=/opt/janus \
         --disable-data-channels \
-        --disable-websockets \
+        --enable-websockets \
         --enable-rest \
         --disable-unix-sockets \
         # --disable-nanomsg \
@@ -83,8 +84,8 @@ RUN apk del --purge -r \
     gengetopt \
     make \
     libmicrohttpd-dev \
-    curl-dev
-
+    curl-dev \
+    libwebsockets-dev
 
 # 安装运行时
 RUN apk add --purge --no-cache \
@@ -93,8 +94,8 @@ RUN apk add --purge --no-cache \
     jansson \
     libsrtp \
     libmicrohttpd \
-    libcurl
-
+    libcurl \
+    libwebsockets
 
 # 文件夹
 RUN mkdir -p /opt/janus/lib/janus/transports \
