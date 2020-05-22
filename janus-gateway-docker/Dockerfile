@@ -27,7 +27,7 @@ RUN apk add --purge --no-cache \
 # 编译 usrsctp
 RUN git clone https://gitee.com/chendaliang/usrsctp.git \
     && cd /usrsctp \
-    && git checkout jjy \
+    && git checkout master \
     && ./bootstrap  \
     && ./configure --prefix=/usr \
     && make \
@@ -37,29 +37,29 @@ RUN git clone https://gitee.com/chendaliang/usrsctp.git \
 # 编译 janus-gateway
 RUN cd / && git clone https://gitee.com/chendaliang/janus-gateway.git
 RUN cd /janus-gateway  \
-    && git checkout jjy  \
+    && git checkout master  \
     && sh autogen.sh  \
     && ./configure -h\
     && ./configure \
-        --prefix=/opt/janus \
-        --disable-data-channels \
-        --enable-websockets \
-        --enable-rest \
-        --disable-unix-sockets \
-        # --disable-nanomsg \
-        --disable-websockets-event-handler \
-        # --disable-rabbitmq-event-handler \
-        # --disable-mqtt-event-handler \
-        # --disable-nanomsg-event-handler \
-        --disable-sample-event-handler \
-        # --disable-plugin-sip \
-        --disable-plugin-nosip \
-        --disable-plugin-streaming \
-        --disable-plugin-textroom \
-        --disable-plugin-videocall \
-        # --disable-plugin-voicemail \
-        --disable-plugin-recordplay \
-        --disable-plugin-echotest \
+    --prefix=/opt/janus \
+    --disable-data-channels \
+    --enable-websockets \
+    --enable-rest \
+    --disable-unix-sockets \
+    # --disable-nanomsg \
+    --disable-websockets-event-handler \
+    # --disable-rabbitmq-event-handler \
+    # --disable-mqtt-event-handler \
+    # --disable-nanomsg-event-handler \
+    --disable-sample-event-handler \
+    # --disable-plugin-sip \
+    --disable-plugin-nosip \
+    --disable-plugin-streaming \
+    --disable-plugin-textroom \
+    --disable-plugin-videocall \
+    # --disable-plugin-voicemail \
+    --disable-plugin-recordplay \
+    --disable-plugin-echotest \
     && make \
     && make install \
     && make configs \
