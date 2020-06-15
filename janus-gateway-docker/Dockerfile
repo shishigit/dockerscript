@@ -37,7 +37,7 @@ RUN git clone https://gitee.com/chendaliang/usrsctp.git \
 # 编译 janus-gateway
 RUN cd / && git clone https://gitee.com/chendaliang/janus-gateway.git
 RUN cd /janus-gateway  \
-    && git checkout master  \
+    && git checkout jjy  \
     && sh autogen.sh  \
     && ./configure -h\
     && ./configure \
