@@ -42,12 +42,12 @@ RUN cd /janus-gateway  \
     && ./configure -h\
     && ./configure \
     --prefix=/opt/janus \
-    --disable-data-channels \
+    --enable-data-channels \
     --enable-websockets \
     --enable-rest \
     --disable-unix-sockets \
     # --disable-nanomsg \
-    --disable-websockets-event-handler \
+    --enable-websockets-event-handler \
     # --disable-rabbitmq-event-handler \
     # --disable-mqtt-event-handler \
     # --disable-nanomsg-event-handler \
