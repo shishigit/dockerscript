@@ -2,6 +2,14 @@ FROM alpine
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
+# 文件夹
+RUN mkdir -p /opt/janus/lib/janus/transports \
+    && mkdir -p /opt/janus/lib/janus/loggers \
+    && mkdir -p /opt/janus/lib/janus/events
+
+COPY www.cdl.com.crt /opt/janus/
+COPY www.cdl.com.key /opt/janus/
+
 # 安装编译
 RUN apk add --purge --no-cache \
     git \
@@ -96,10 +104,5 @@ RUN apk add --purge --no-cache \
     libmicrohttpd \
     libcurl \
     libwebsockets
-
-# 文件夹
-RUN mkdir -p /opt/janus/lib/janus/transports \
-    && mkdir -p /opt/janus/lib/janus/loggers \
-    && mkdir -p /opt/janus/lib/janus/events
 
 CMD ["/opt/janus/bin/janus"]
